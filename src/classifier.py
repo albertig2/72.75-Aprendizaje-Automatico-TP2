@@ -1,9 +1,11 @@
 import sklearn
 from typing import Protocol
+from sklearn.metrics import mean_squared_error
 
 
 class Classifier(Protocol):
     def train(self) -> None: ...
+    def test(self) -> float: ...
 
 
 class NaiveBayes:
@@ -13,6 +15,9 @@ class NaiveBayes:
     
     def train(self) -> None: 
         pass
+    
+    def test(self) -> float: 
+            pass
 
 class KNN:
     # K-Nearest-Neighbor
@@ -32,6 +37,9 @@ class KNN:
     
     def train(self) -> None:
         pass
+    
+    def test(self) -> float: 
+        pass
         
 class RandomForest:
     # Random three turns into random forest,
@@ -46,6 +54,9 @@ class RandomForest:
         pass
     
     def train(self) -> None:
+        pass
+    
+    def test(self) -> float: 
         pass
 
 class SVM: 
@@ -62,7 +73,10 @@ class SVM:
     # Every point could be taken away and we could be left with only the support vectors, 
     # we would still get the same classifier
     def __init__(self) -> None: 
-            pass
+        pass
         
     def train(self) -> None: 
+        pass
+    
+    def test(self) -> float: 
         pass
