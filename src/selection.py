@@ -3,9 +3,9 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 from sklearn.feature_selection import mutual_info_classif, f_classif
-from loading import load_data_set
-from cleaning import clean_data_set
-from preprocessing import split_features_target, make_preprocessor
+from src.loading import load_data_set
+from src.cleaning import clean_data_set
+from src.preprocessing import split_features_target, split_train_test, make_preprocessor
 
 def select_features(df, features, target):
     if features == "all":
@@ -76,11 +76,13 @@ if __name__ == "__main__":
     data_raw = load_data_set()
     data_cleaned = clean_data_set(data_raw)
     X, Y = split_features_target(data_cleaned)
-    preprocessor = make_preprocessor(X)
-    X_processed = preprocessor.fit_transform(X)
+    # Only look at the training set, so feature decisions don't use test data
+    X_train, X_test, Y_train, Y_test = split_train_test(X, Y)
+    preprocessor = make_preprocessor(X_train)
+    X_processed = preprocessor.fit_transform(X_train)
     feature_names = preprocessor.get_feature_names_out()
-    mutual_information_plot(X_processed, Y, feature_names)
-    anova_f_test(X, Y)
+    mutual_information_plot(X_processed, Y_train, feature_names)
+    anova_f_test(X_train.select_dtypes(include=["number"]), Y_train)
 
 
 

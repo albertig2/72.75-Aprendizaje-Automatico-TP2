@@ -31,7 +31,7 @@ def make_preprocessor(X:np.ndarray) -> ColumnTransformer:
 
     preprocessor = ColumnTransformer(
         transformers=[
-            ("categorical", OneHotEncoder(handle_unknown="ignore"), categorical_columns),
+            ("categorical", OneHotEncoder(handle_unknown="ignore", sparse_output=False), categorical_columns),
             ("numerical", StandardScaler(), numerical_columns),
         ]
     

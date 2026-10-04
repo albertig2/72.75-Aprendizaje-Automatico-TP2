@@ -21,11 +21,11 @@ C_drop = [
 
 selected_features = [
     column for column in df_clean.columns
-    if column not in A_drop
+    if column not in A_drop and column != "y"
 ]
 
 df_selected = select_features(df_clean, selected_features, "y")
-X, Y = split_features_target(df_clean)
+X, Y = split_features_target(df_selected)
 X_train, X_test, Y_train, Y_test = split_train_test(X, Y)
 
 preprocessor = make_preprocessor(X_train)
@@ -40,8 +40,8 @@ classifiers = [nbc, knnc, rfc, svmc]
 for classifier in classifiers:
     scores = cross_validate(
         classifier.model,
-        X,
-        Y,
+        X_train,
+        Y_train,
         folds=5
     )
 

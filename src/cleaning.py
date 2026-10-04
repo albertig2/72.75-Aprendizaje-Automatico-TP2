@@ -1,9 +1,9 @@
-from loading import load_data_set
+from src.loading import load_data_set
 
 
 def clean_data_set(df):
     df_clean = df.dropna()
-    df_clean = df.drop_duplicates()
+    df_clean = df_clean.drop_duplicates()
     return df_clean
 
 

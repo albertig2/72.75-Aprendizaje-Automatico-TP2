@@ -72,5 +72,10 @@ class SVM(Classifier):
     # C: how many misclassified samples we allow
     def __init__(self, preprocessor, kernel:str, C:int) -> None: 
         # kernel: should try linear, poly and rbf
-        self.model = svm.SVC(kernel=kernel, C=C)
-        Pipeline([("preprocessing", preprocessor), ("classifier", svm.SVC(kernel=kernel, C=C))])
+        # LinearSVC fits the same linear model as SVC(kernel='linear') but scales to ~33k rows;
+        # SVC with a kernel is O(n^2)-O(n^3) and very slow here.
+        if kernel == 'linear':
+            classifier = svm.LinearSVC(C=C)
+        else:
+            classifier = svm.SVC(kernel=kernel, C=C, cache_size=1000)
+        self.model = Pipeline([("preprocessing", preprocessor), ("classifier", classifier)])
